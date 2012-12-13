@@ -1,0 +1,17 @@
+.add {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+.about {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+.share {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
