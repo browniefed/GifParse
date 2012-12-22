@@ -24,8 +24,12 @@
 <script type="text/javascript">
 	var ronswan = Gif2Sprite('images/swansondance.gif');
 	var parser = ronswan.toSprite(true);
-	$('#fillme').on('mousemove', function(e) {
-		//console.log(e);
+	console.log(parser);
+	$('body').on('mousemove', function(e) {
+		var x = e.clientX
+		pos = (Math.ceil(x/parser.flength) * parser.step);
+		$(this).css('background-position', pos + 'px' + ' 0');
+
 	});
 
 </script>
