@@ -3,8 +3,13 @@
 	<input class="link_input" type="text" placeholder="Add a GIF Link">
 	<button class="link_submit" type="button">Parse It!</button>
 </div>
+<canvas id="can">
+</canvas>
+<div id="fillme">
+
+</div>
 <div class="about">
-	<p>This was inspired by <a href="http://gifctrl.com">gifctrl.com">gifctrl</a> but using a pure Javascript implementation!</p>
+	<p>This was inspired by <a href="http://gifctrl.com">gifctrl</a> but using a pure Javascript implementation!</p>
 	<p>If you're browser is too old, well you'd know by now, enjoy.</p>
 	<p>Created By:</p>
 	<a href="http://twitter.com/browniefed">Twitter</a>
@@ -15,3 +20,12 @@
 <a href="#">Twitter</a>
 <a href="#">Facebook</a>
 </div>
+
+<script type="text/javascript">
+	var ronswan = Gif2Sprite('images/swansondance.gif');
+	var parser = ronswan.toSprite(true);
+	$('#fillme').on('mousemove', function(e) {
+		//console.log(e);
+	});
+
+</script>
