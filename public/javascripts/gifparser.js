@@ -7,7 +7,8 @@ var GifParser = function(view) {
 			height: 0,
 			frames: 0,
 			type: '',
-			ver: ''
+			ver: '',
+			transColorInd: 0
 		},
 	    header = {
 		    	gctFlag: 0,
@@ -133,6 +134,7 @@ var GifParser = function(view) {
 			block.transColor = bits.shift();
 			block.delay = jview.getUint16(jview.tell(),true);
 			block.transColorInd = jview.getUint8(jview.tell());
+			img.transColorInd = block.transColorInd;
 			//Ends in 00 Block term, should just seek over instead of get Uint8
 			jview.seek(jview.tell() + 1);			
 		}
@@ -261,11 +263,10 @@ var GifParser = function(view) {
 	  //if (Math.ceil(pos / 8) !== data.length) throw new Error('Extraneous LZW bytes.');
 	  return output;
 	};
-	function pixelsToData(img) {
-
-		imgData = context.getImageData(img.top, img.left, img.width, img.height);
-		img.pixels.forEach(function(pixel, i) {
-			if (pixel !== 255) {
+	function pixelsToData(image) {
+		imgData = context.getImageData(image.top, image.left, image.width, image.height);
+		image.pixels.forEach(function(pixel, i) {
+			if (pixel !== img.transColorInd) {
 				imgData.data[i * 4 + 0] = header.gct[pixel][0];
 				imgData.data[i * 4 + 1] = header.gct[pixel][1];
 				imgData.data[i * 4 + 2] = header.gct[pixel][2];
@@ -274,7 +275,7 @@ var GifParser = function(view) {
 
 			}
 		});
-		context.putImageData(imgData, img.left, img.top);
+		context.putImageData(imgData, image.left, image.top);
 		return canvas.toDataURL();
 	}
 

@@ -1,35 +1,42 @@
-<h1 class="title"><% title %></h1>
-<div class="add">
+<div class="add box">
 	<input class="link_input" type="text" placeholder="Add a GIF Link">
 	<button class="link_submit" type="button">Parse It!</button>
 </div>
-<canvas id="can">
-</canvas>
-<div id="fillme">
-
-</div>
-<div class="about">
+<div class="about box">
 	<p>This was inspired by <a href="http://gifctrl.com">gifctrl</a> but using a pure Javascript implementation!</p>
 	<p>If you're browser is too old, well you'd know by now, enjoy.</p>
-	<p>Created By:</p>
+	<p>Created By: Browniefed</p>
 	<a href="http://twitter.com/browniefed">Twitter</a>
 	<a href="http://browniefed.com">Portfolio</a>
 </div>
-<div class="share">
-<p>Share with your friends</p>
-<a href="#">Twitter</a>
-<a href="#">Facebook</a>
+<div class="share box">
+	<p>Share with your friends</p>
+	<a href="#">Twitter</a>
+	<a href="#">Facebook</a>
 </div>
+<div class="controls">
+	<ul>
+		<li id="frame"><input type="text" value="0" /></li>
+		<li id="prev">Prev</li>
+		<li id="play">Play</li>
+		<li id="next">Next</li>
+		<li id="grid">Show Grid</li>
+	</ul>
+</div>
+<div class="hover"></div>
 
 <script type="text/javascript">
 	var ronswan = Gif2Sprite('images/swansondance.gif');
 	var parser = ronswan.toSprite(true);
-	console.log(parser);
-	$('body').on('mousemove', function(e) {
-		var x = e.clientX
+
+	$('body').hammer().on('mousemove drag', function(e) {
+		var x = (!!e.touches ? e.touches[0].x : e.clientX),
 		pos = (Math.ceil(x/parser.flength) * parser.step);
+		console.log(e);
 		$(this).css('background-position', pos + 'px' + ' 0');
-
+		$('#frame input').val((Math.ceil(x/parser.flength) + 1) + '/' + (parser.frames + 1));
 	});
-
+	//Make async callback to put image full body, then fill in background
+	//Adjust to viewport resize
+	//Add music on a per frame basis
 </script>
