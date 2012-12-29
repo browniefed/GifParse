@@ -1,4 +1,4 @@
-<div class="add box">
+<!--<div class="add box">
 	<input class="link_input" type="text" placeholder="Add a GIF Link">
 	<button class="link_submit" type="button">Parse It!</button>
 </div>
@@ -8,6 +8,10 @@
 	<p>Created By: Browniefed</p>
 	<a href="http://twitter.com/browniefed">Twitter</a>
 	<a href="http://browniefed.com">Portfolio</a>
+</div>
+-->
+<div class="frames">
+
 </div>
 <div class="share box">
 	<p>Share with your friends</p>
@@ -26,16 +30,29 @@
 <div class="hover"></div>
 
 <script type="text/javascript">
-	var ronswan = Gif2Sprite('images/swansondance.gif');
-	var parser = ronswan.toSprite(true);
 
-	$('body').hammer().on('mousemove drag', function(e) {
+	function cb(bg, sprite) {
+		//$('body').css({'background-image': 'url("' + bg + '")', 'background-size': sprite.width + 'px' + ' ' + sprite.height + 'px'});
+	}
+
+	var ronswan = Gif2Sprite('images/django.gif');
+	var parser = ronswan.toSprite(true, cb);
+
+	/*$('body').hammer().on('mousemove drag', function(e) {
 		var x = (!!e.touches ? e.touches[0].x : e.clientX),
-		pos = (Math.ceil(x/parser.flength) * parser.step);
-		console.log(e);
-		$(this).css('background-position', pos + 'px' + ' 0');
-		$('#frame input').val((Math.ceil(x/parser.flength) + 1) + '/' + (parser.frames + 1));
+		pos = Math.ceil(x/parser.flength),
+		bgpos = (pos * parser.step) * -1;
+		if (pos < (parser.frames)) {
+			$(this).css('background-position', bgpos + 'px' + ' 0');
+			$('#frame input').val( (Math.ceil(x/parser.flength) + 1) + '/' + (parser.frames));
+		}
+	});*/
+	$('.frames').on('hover', 'img', function(e) {
+		$('body').css({'background-image':'url("' + $(this).attr('src') + '")', 'background-size': document.documentElement.clientWidth + 'px' + ' ' + document.documentElement.clientHeight + 'px'});
 	});
+
+	
+	
 	//Make async callback to put image full body, then fill in background
 	//Adjust to viewport resize
 	//Add music on a per frame basis

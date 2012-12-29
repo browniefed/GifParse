@@ -16,7 +16,7 @@ var Gif2Sprite = Gif2Sprite || {};
 		    
 		
 
-		function toSprite(combine) {
+		function toSprite(combine, callback) {
 			var combine = combine || true;
 			try {
 				file = getFile();
@@ -26,7 +26,7 @@ var Gif2Sprite = Gif2Sprite || {};
 				sprite.frames = parser.frames.length;
 				sprite.step = document.documentElement.clientWidth;
 				sprite.flength = Math.round(document.documentElement.clientWidth / sprite.frames);
-				merge(parser);
+				merge(parser, callback, sprite);
 				return sprite;
 			} catch (err) {
 				//Handle the error
@@ -34,46 +34,40 @@ var Gif2Sprite = Gif2Sprite || {};
 			}
 		}
 
-		function merge(p) {
+		function merge(p, cb, sprite) {
 			canvas.width = (p.img.width * (p.frames.length));
 			canvas.height = p.img.height;
+			$('.frames').width(canvas.width);
 			for(img in p.frames) {
 				
-				(function(img, p, context, canvas) {
+				(function(img, p, context, canvas, cb) {
+					img = parseInt(img);
 					var Imgg = new Image();
 					Imgg.onload = function() {
-						console.log((p.frames.length - 1) == img);
 						context.drawImage(this,(img * p.img.width),0);
-						if ((p.frames.length - 1) == img) {
-							cb(canvas.toDataURL(),p);
+						$('<img />', {
+							src: p.frames[img].imgData,
+							'class': 'n' + img
+						}).appendTo('.frames');
+						if ((p.frames.length - 1) == (img)) {
+							cb(canvas.toDataURL(),sprite);
 						}
 					}
 					Imgg.width = p.img.width;
 					Imgg.height = p.img.height;
 					Imgg.src = p.frames[img].imgData;
 
-				}(img,p, context, canvas));
+				}(img, p, context, canvas, cb));
 			}
-		}
-
-		function cb(bg) {
-
-			$('body').css({'background-image': 'url("' + bg + '")', 'background-size': sprite.width + 'px' + ' ' + sprite.height + 'px'});
 		}
 
 		function getFile(bufarray) {
 			var xhr = new XMLHttpRequest;
-			if("withCredentials" in request) {
-			   xhr.open("GET", img, false);
-			   xhr.overrideMimeType("text/plain; charset=x-user-defined");
-			   xhr.send();
-			   return xhr.responseText; 
-			} else if (XDomainRequest) {
-			   var xdr = new XDomainRequest();
-			   xdr.open("get", img);
-			   xdr.send();
-			}
-			
+			xhr.open("GET", img, false);
+			xhr.overrideMimeType("text/plain; charset=x-user-defined");
+			xhr.send();
+			return xhr.responseText; 
+
 		}
 		
 		return {

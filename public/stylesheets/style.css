@@ -1,12 +1,17 @@
+body {
+	background-repeat: no-repeat;
+}
 .add {
 	position: absolute;
 	left: 0;
 	bottom: 0;
+	max-width: 50%;
 }
 .about {
 	position: absolute;
 	right: 0;
 	bottom: 0;
+	max-width: 50%
 }
 .share {
 	position: absolute;
@@ -61,4 +66,20 @@
 	right: 0;
 	bottom: 0;
 	z-index: -1;
+}
+
+.frames {
+	height: 50px;
+	overflow: scroll;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+.frames img {
+	margin-left: 10px;
+	display: block;
+	float: left;
+	height: 40px;
+	width: auto;
 }
